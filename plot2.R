@@ -1,0 +1,20 @@
+## Assignment - Q2 
+## Have total emissions from PM2.5 decreased in the Baltimore City, Maryland (fips == "24510") from 1999 to 2008? 
+## Use the base plotting system to make a plot answering this question.
+
+## read emissions data and classification code
+emissions_data <- readRDS("summarySCC_PM25.rds")
+class_code <- readRDS("Source_Classification_Code.rds")
+
+## subset Baltimore data and then add up emissions for each year
+baltimore_data <- subset(emissions_data, emissions_data$fips=="24510")
+baltimore_data_year <- aggregate(baltimore_data$Emissions, by=list(baltimore_data$year), 
+                                 FUN=sum)
+baltimore_data_year
+
+## create plot
+png(filename = "plot2.png")
+plot(baltimore_data_year$Group.1, baltimore_data_year$x, type = "o", pch =16,
+     main = "Total Emissions of PM2.5 in Baltimore City", xlab = "year", 
+     ylab = "Total Emissions (tons)")
+dev.off()
